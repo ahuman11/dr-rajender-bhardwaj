@@ -1,0 +1,21 @@
+[
+  {"name": "ICAR-Indian Agricultural Research Institute (IARI)", "location": "New Delhi", "link": "https://iari.res.in"},
+  {"name": "ICAR-Indian Veterinary Research Institute (IVRI)", "location": "Izatnagar", "link": "https://ivri.nic.in"},
+  {"name": "ICAR-Central Arid Zone Research Institute (CAZRI)", "location": "Jodhpur", "link": "https://cazri.res.in"},
+  {"name": "ICAR-Central Soil Salinity Research Institute (CSSRI)", "location": "Karnal", "link": "https://cssri.res.in"},
+  {"name": "ICAR-Indian Institute of Millets Research (IIMR)", "location": "Hyderabad", "link": "https://millets.res.in"},
+  {"name": "ICAR-Indian Institute of Spices Research", "location": "Kozhikode", "link": "https://spices.res.in"},
+  {"name": "ICAR-Central Plantation Crops Research Institute", "location": "Kasaragod", "link": "https://cpcri.icar.gov.in"},
+  {"name": "ICAR-Central Potato Research Institute (CPRI)", "location": "Shimla", "link": "https://cpri.icar.gov.in"},
+  {"name": "ICAR-National Bureau of Soil Survey & Land Use Planning", "location": "Nagpur", "link": "https://nbsslup.in"},
+  {"name": "ICAR-Indian Institute of Soil & Water Conservation", "location": "Dehradun", "link": "https://iiswc.icar.gov.in"},
+  {"name": "ICAR-Directorate of Weed Research", "location": "Jabalpur", "link": "https://dwr.icar.gov.in"},
+  {"name": "ICAR-Central Coastal Agricultural Research Institute", "location": "Goa", "link": "https://ccari.icar.gov.in"},
+  {"name": "ICAR-Research Complex for NEH Region", "location": "Barapani", "link": "https://icarneh.ernet.in"},
+  {"name": "ICAR-Central Agroforestry Research Institute", "location": "Jhansi", "link": "https://carfri.icar.gov.in"},
+  {"name": "ICAR-National Institute of Abiotic Stress Management", "location": "Baramati", "link": "https://niasm.icar.gov.in"},
+  {"name": "ICAR-Indian Agricultural Statistics Research Institute", "location": "New Delhi", "link": "https://iasri.res.in"},
+  {"name": "ICAR-National Research Centre for Banana (NRCB)", "location": "Trichy", "link": "https://nrcb.res.in"},
+  {"name": "ICAR-National Research Centre for Grapes", "location": "Pune", "link": "https://nrcgrapes.res.in"},
+  {"name": "ICAR-National Bureau of Plant Genetic Resources (NBPGR)", "location": "New Delhi", "link": "https://nbpgr.ernet.in"}
+]

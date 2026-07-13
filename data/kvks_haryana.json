@@ -1,0 +1,20 @@
+[
+  {"name": "KVK Fatehabad", "location": "Fatehabad", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Jhajjar", "location": "Jhajjar", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Bhiwani", "location": "Bhiwani", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Rohtak", "location": "Rohtak", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Sirsa", "location": "Sirsa", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Mahendergarh", "location": "Mahendergarh", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Ambala", "location": "Ambala", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Panipat", "location": "Panipat", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Kaithal", "location": "Kaithal", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Jind", "location": "Jind", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Kurukshetra", "location": "Kurukshetra", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Faridabad", "location": "Faridabad", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Yamunanagar", "location": "Yamunanagar", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Sonipat", "location": "Sonipat", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Hisar", "location": "Hisar", "link": "https://hau.ac.in"},
+  {"name": "KVK Karnal", "location": "Karnal", "link": "https://ndri.res.in"},
+  {"name": "KVK Gurugram", "location": "Gurugram", "link": "https://kvk.icar.gov.in"},
+  {"name": "KVK Rewari", "location": "Rewari", "link": "https://kvk.icar.gov.in"}
+]
