@@ -84,9 +84,13 @@ async def home(req: Request):
     prices = get_mandi_prices()
     weather = get_weather()
     news = get_news()
-    progressive = load_json("progressive_farmers.json")
+    
+    # 🔥 अब ये 4 लाइनें FUNCTION के अंदर (सही जगह) हैं
+    progressive_haryana = load_json("progressive_haryana.json")
+    progressive_india = load_json("progressive_india.json")
     organic = load_json("organic_farmers.json")
     institutions = load_json("institutions.json")
+    
     today = datetime.now().strftime("%d %B %Y")
 
     # --- KPI CARDS के लिए Dynamic कैलकुलेशन (Mandi Data से) ---
@@ -106,17 +110,18 @@ async def home(req: Request):
         "fpos": "182"
     }
 
-    # 🖼️ Template Render करो - अब WEATHER और NEWS भी पास किए हैं!
+    # 🖼️ Template Render करो
     template = env.get_template("index.html")
     html_content = template.render(
         title=APP_TITLE,
         today=today,
         colors=COLORS,
         prices=prices,
-        weather=weather,          # ✅ अब Weather भेजा
-        news=news,               # ✅ अब News भेजा
+        weather=weather,          
+        news=news,               
         kpi=kpi,
-        progressive_farmers=progressive,
+        progressive_haryana=progressive_haryana,  # ✅ अब सही Variable नाम
+        progressive_india=progressive_india,      # ✅ अब सही Variable नाम
         organic_farmers=organic,
         institutions=institutions
     )

@@ -1,6 +1,0 @@
-[
-    {"name": "Khema Ram Choudhary", "location": "Jaipur, Rajasthan", "specialty": "Hydroponics", "initials": "KC"},
-    {"name": "Vinod Kumar", "location": "Karnal, Haryana", "specialty": "Dairy+Agri", "initials": "VK"},
-    {"name": "Dharampal Kala", "location": "Chiri, Rohtak", "specialty": "Aquapreneur", "initials": "DK"},
-    {"name": "Soniya Jain", "location": "Rajasthan", "specialty": "Integrated Farming", "initials": "SJ"}
-]
