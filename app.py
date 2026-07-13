@@ -14,7 +14,7 @@ load_dotenv()  # .env फाइल से API Key लोड करो
 app = FastAPI()
 env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
 
-# ----- DATA LOADING (JSON Files) -----
+# ----- 1. DATA LOADING (JSON Files) -----
 def load_json(filename):
     try:
         with open(f"data/{filename}", "r", encoding="utf-8") as f:
@@ -23,15 +23,15 @@ def load_json(filename):
             return data
     except FileNotFoundError:
         print(f"❌ FILE NOT FOUND: data/{filename}")
-        return []
+        return [] if filename != "institutions_haryana.json" else {}  # Handle dict fallback
     except json.JSONDecodeError as e:
         print(f"❌ JSON ERROR in {filename}: {e}")
-        return []
+        return [] if filename != "institutions_haryana.json" else {}
     except Exception as e:
         print(f"❌ UNKNOWN ERROR in {filename}: {e}")
-        return []
-checklist = load_json("checklist.json")
-# ----- LIVE MANDI PRICES -----
+        return [] if filename != "institutions_haryana.json" else {}
+
+# ----- 2. LIVE MANDI PRICES -----
 def get_mandi_prices():
     try:
         r = requests.get(APIS["mandi"], timeout=5)
@@ -41,6 +41,7 @@ def get_mandi_prices():
                 return data[:6]
     except:
         pass
+    # 🛡️ Fallback (अगर API डाउन हो तो)
     return [
         {"crop": "Wheat", "variety": "Lok-1", "price": 2450, "change": "+0.8%"},
         {"crop": "Paddy", "variety": "Pusa 1121", "price": 4280, "change": "+1.2%"},
@@ -48,7 +49,7 @@ def get_mandi_prices():
         {"crop": "Tomato", "variety": "Hybrid", "price": 2850, "change": "+7.2%"},
     ]
 
-# ----- LIVE WEATHER -----
+# ----- 3. LIVE WEATHER (OpenWeatherMap) -----
 def get_weather():
     key = os.getenv("OPENWEATHER_KEY")
     if not key:
@@ -67,7 +68,7 @@ def get_weather():
         pass
     return {"temp": "28", "desc": "Partly Cloudy", "icon": "fa-cloud"}
 
-# ----- LIVE NEWS -----
+# ----- 4. LIVE NEWS (Google RSS) -----
 def get_news():
     try:
         feed = feedparser.parse("https://news.google.com/rss/search?q=haryana+agriculture&hl=en-IN&gl=IN&ceid=IN:en")
@@ -83,7 +84,7 @@ def get_news():
         return fallback
     return ["🌾 Latest Agri News loading..."]
 
-# ----- MAIN ROUTE -----
+# ----- 5. MAIN ROUTE (Dashboard) -----
 @app.get("/", response_class=HTMLResponse)
 async def home(req: Request):
     # LIVE DATA
@@ -96,18 +97,21 @@ async def home(req: Request):
     progressive_india = load_json("progressive_india.json")
     organic_farmers = load_json("organic_farmers.json")
     
-    # 🏛️ HARYANA INSTITUTIONS (Nई FILES)
+    # 🏛️ HARYANA INSTITUTIONS (नई FILES)
     haryana_institutions = load_json("institutions_haryana.json")  # सभी विश्वविद्यालय, विभाग
     kvks = load_json("kvks_haryana.json")  # सभी KVKs
     fpos = load_json("fpos_haryana.json")  # सभी FPOs
     
-    # 🇮🇳 INDIA INSTITUTIONS (Nई FILES)
+    # 🇮🇳 INDIA INSTITUTIONS (नई FILES)
     india_institutions = load_json("institutions_india.json")  # State Agricultural Universities
     icar_institutes = load_json("icar_institutes_india.json")  # ICAR Research Institutes
     
+    # 📋 CHECKLIST DATA (नई FEATURE)
+    checklist = load_json("checklist.json")  # Daily/Weekly Tasks
+    
     today = datetime.now().strftime("%d %B %Y")
 
-    # KPI CALCULATION
+    # KPI CALCULATION (Dynamic Avg Price)
     avg_price = "N/A"
     if prices and isinstance(prices, list):
         try:
@@ -117,6 +121,7 @@ async def home(req: Request):
         except:
             pass
 
+    # KPI Cards Data
     kpi = {
         "farmers": "2.4M",
         "avg_price": avg_price,
@@ -124,7 +129,7 @@ async def home(req: Request):
         "fpos": str(len(fpos) if fpos else "182")
     }
 
-    # 🖼️ TEMPLATE RENDER
+    # 🖼️ TEMPLATE RENDER (सारा Data Template को भेजो)
     template = env.get_template("index.html")
     html_content = template.render(
         title=APP_TITLE,
@@ -134,7 +139,6 @@ async def home(req: Request):
         weather=weather,
         news=news,
         kpi=kpi,
-    checklist=checklist  # ✅ ये नया है
         # Farmers
         progressive_haryana=progressive_haryana,
         progressive_india=progressive_india,
@@ -145,6 +149,8 @@ async def home(req: Request):
         fpos=fpos,
         # India Institutions
         india_institutions=india_institutions,
-        icar_institutes=icar_institutes
+        icar_institutes=icar_institutes,
+        # Checklist (New Feature)
+        checklist=checklist
     )
     return HTMLResponse(content=html_content)
