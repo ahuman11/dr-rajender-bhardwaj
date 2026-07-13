@@ -12,18 +12,26 @@ from config import APP_TITLE, COLORS, APIS
 load_dotenv()  # .env फाइल से API Key लोड करो
 
 app = FastAPI()
-# 🔥 FastAPI के बजाय सीधा Jinja2 Environment use करो (Python 3.14 के लिए सही)
 env = jinja2.Environment(loader=jinja2.FileSystemLoader("templates"))
 
-# ----- 1. DATA LOADING (JSON Files) -----
+# ----- DATA LOADING (JSON Files) -----
 def load_json(filename):
     try:
         with open(f"data/{filename}", "r", encoding="utf-8") as f:
-            return json.load(f)
-    except:
+            data = json.load(f)
+            print(f"✅ {filename} loaded successfully! ({len(data) if isinstance(data, list) else len(data)} items)")
+            return data
+    except FileNotFoundError:
+        print(f"❌ FILE NOT FOUND: data/{filename}")
         return []
-
-# ----- 2. LIVE MANDI PRICES -----
+    except json.JSONDecodeError as e:
+        print(f"❌ JSON ERROR in {filename}: {e}")
+        return []
+    except Exception as e:
+        print(f"❌ UNKNOWN ERROR in {filename}: {e}")
+        return []
+checklist = load_json("checklist.json")
+# ----- LIVE MANDI PRICES -----
 def get_mandi_prices():
     try:
         r = requests.get(APIS["mandi"], timeout=5)
@@ -33,7 +41,6 @@ def get_mandi_prices():
                 return data[:6]
     except:
         pass
-    # 🛡️ Fallback (अगर API डाउन हो तो)
     return [
         {"crop": "Wheat", "variety": "Lok-1", "price": 2450, "change": "+0.8%"},
         {"crop": "Paddy", "variety": "Pusa 1121", "price": 4280, "change": "+1.2%"},
@@ -41,7 +48,7 @@ def get_mandi_prices():
         {"crop": "Tomato", "variety": "Hybrid", "price": 2850, "change": "+7.2%"},
     ]
 
-# ----- 3. LIVE WEATHER (OpenWeatherMap) -----
+# ----- LIVE WEATHER -----
 def get_weather():
     key = os.getenv("OPENWEATHER_KEY")
     if not key:
@@ -60,40 +67,47 @@ def get_weather():
         pass
     return {"temp": "28", "desc": "Partly Cloudy", "icon": "fa-cloud"}
 
-# ----- 4. LIVE NEWS (Google RSS) -----
+# ----- LIVE NEWS -----
 def get_news():
     try:
         feed = feedparser.parse("https://news.google.com/rss/search?q=haryana+agriculture&hl=en-IN&gl=IN&ceid=IN:en")
         items = []
-        for entry in feed.entries[:4]:  # सिर्फ 4 खबरें
+        for entry in feed.entries[:4]:
             items.append(entry.title)
         if items:
             return items
     except:
         pass
-    # 🛡️ अगर RSS न चले तो Fallback
     fallback = load_json("news_fallback.json")
     if fallback:
         return fallback
     return ["🌾 Latest Agri News loading..."]
 
-# ----- 5. MAIN ROUTE -----
+# ----- MAIN ROUTE -----
 @app.get("/", response_class=HTMLResponse)
 async def home(req: Request):
-    # सारा Live Data एक साथ Fetch करो
+    # LIVE DATA
     prices = get_mandi_prices()
     weather = get_weather()
     news = get_news()
     
-    # 🔥 अब ये 4 लाइनें FUNCTION के अंदर (सही जगह) हैं
+    # 🔥 FARMERS DATA (Static JSONs)
     progressive_haryana = load_json("progressive_haryana.json")
     progressive_india = load_json("progressive_india.json")
-    organic = load_json("organic_farmers.json")
-    institutions = load_json("institutions.json")
+    organic_farmers = load_json("organic_farmers.json")
+    
+    # 🏛️ HARYANA INSTITUTIONS (Nई FILES)
+    haryana_institutions = load_json("institutions_haryana.json")  # सभी विश्वविद्यालय, विभाग
+    kvks = load_json("kvks_haryana.json")  # सभी KVKs
+    fpos = load_json("fpos_haryana.json")  # सभी FPOs
+    
+    # 🇮🇳 INDIA INSTITUTIONS (Nई FILES)
+    india_institutions = load_json("institutions_india.json")  # State Agricultural Universities
+    icar_institutes = load_json("icar_institutes_india.json")  # ICAR Research Institutes
     
     today = datetime.now().strftime("%d %B %Y")
 
-    # --- KPI CARDS के लिए Dynamic कैलकुलेशन (Mandi Data से) ---
+    # KPI CALCULATION
     avg_price = "N/A"
     if prices and isinstance(prices, list):
         try:
@@ -107,22 +121,30 @@ async def home(req: Request):
         "farmers": "2.4M",
         "avg_price": avg_price,
         "schemes": "15",
-        "fpos": "182"
+        "fpos": str(len(fpos) if fpos else "182")
     }
 
-    # 🖼️ Template Render करो
+    # 🖼️ TEMPLATE RENDER
     template = env.get_template("index.html")
     html_content = template.render(
         title=APP_TITLE,
         today=today,
         colors=COLORS,
         prices=prices,
-        weather=weather,          
-        news=news,               
+        weather=weather,
+        news=news,
         kpi=kpi,
-        progressive_haryana=progressive_haryana,  # ✅ अब सही Variable नाम
-        progressive_india=progressive_india,      # ✅ अब सही Variable नाम
-        organic_farmers=organic,
-        institutions=institutions
+    checklist=checklist  # ✅ ये नया है
+        # Farmers
+        progressive_haryana=progressive_haryana,
+        progressive_india=progressive_india,
+        organic_farmers=organic_farmers,
+        # Haryana Institutions
+        haryana_institutions=haryana_institutions,
+        kvks=kvks,
+        fpos=fpos,
+        # India Institutions
+        india_institutions=india_institutions,
+        icar_institutes=icar_institutes
     )
     return HTMLResponse(content=html_content)

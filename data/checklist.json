@@ -1,0 +1,10 @@
+[
+  {"id": 1, "task": "🌾 Check Today's Mandi Prices (Wheat/Paddy)", "default": false},
+  {"id": 2, "task": "🌦️ Check Weather Forecast for Next 48 Hours", "default": false},
+  {"id": 3, "task": "📝 Review Organic Certification Renewal", "default": false},
+  {"id": 4, "task": "🚜 Visit KVK Karnal for Crop Advisory", "default": false},
+  {"id": 5, "task": "📊 Update Weekly Progressive Farmers List", "default": false},
+  {"id": 6, "task": "💧 Check Soil Moisture / Irrigation Schedule", "default": false},
+  {"id": 7, "task": "📰 Read Latest Agriculture News & Schemes", "default": false},
+  {"id": 8, "task": "📞 Contact FPO for Market Linkage", "default": false}
+]
