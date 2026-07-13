@@ -1,0 +1,5 @@
+{
+    "Research": ["HAU Hisar (Asia's biggest)", "NDRI Karnal (NIRF #2)", "Maharana Pratap Hort. Uni.", "CSSRI Karnal"],
+    "KVKs": ["KVK Karnal", "KVK Hisar", "KVK Rohtak", "KVK Sirsa"],
+    "FPOs": ["Satnali Organic FPC, Bhiwani", "Progressive Farmers FPC, Sonipat", "Jhorar FPC, Sirsa", "Badli FPC, Jhajjar"]
+}

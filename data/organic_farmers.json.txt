@@ -1,0 +1,6 @@
+[
+    {"name": "Jitender Mann & Sarla", "location": "Haryana", "specialty": "Moringa", "initials": "JM"},
+    {"name": "Omveer", "location": "Palwal, Haryana", "specialty": "Dairy+Organic", "initials": "OV"},
+    {"name": "Gurdeep Singh", "location": "Nagoki, Sirsa", "specialty": "Turmeric", "initials": "GS"},
+    {"name": "Radheyshyam Parihar", "location": "Agar Malwa, MP", "specialty": "Multi-crop", "initials": "RP"}
+]
