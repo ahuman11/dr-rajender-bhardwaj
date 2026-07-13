@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root { --primary: {{ colors.primary }}; --secondary: {{ colors.secondary }}; --accent: {{ colors.accent }}; --bg: {{ colors.bg }}; --card-bg: {{ colors.card_bg }}; --text-dark: {{ colors.text_dark }}; --text-light: {{ colors.text_light }}; --success: {{ colors.success }}; --danger: {{ colors.danger }}; }
+        * { margin:0; padding:0; box-sizing:border-box; font-family: 'Segoe UI', sans-serif; }
+        body { background: var(--bg); padding:20px; color: var(--text-dark); }
+        .navbar { background: linear-gradient(135deg, var(--primary), var(--secondary)); color:white; padding:16px 30px; border-radius:16px; display:flex; justify-content:space-between; align-items:center; margin-bottom:25px; }
+        .logo h1 i { color: var(--accent); margin-right:10px; }
+        .card { background: var(--card-bg); border-radius:16px; padding:22px 24px; margin-bottom:25px; border:1px solid #e9edf2; }
+        .card-header { border-bottom:1px solid #f1f5f9; padding-bottom:12px; margin-bottom:18px; }
+        table { width:100%; border-collapse:collapse; }
+        th { text-align:left; padding:10px 6px 8px 0; color: var(--text-light); }
+        td { padding:10px 6px 10px 0; border-bottom:1px solid #f1f5f9; }
+        .price-up { color: var(--success); font-weight:600; }
+        .price-down { color: var(--danger); font-weight:600; }
+        .footer { text-align:center; margin-top:35px; padding:18px; color: var(--text-light); border-top:1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo"><h1><i class="fas fa-seedling"></i> {{ title }}</h1></div>
+        <div><i class="fas fa-calendar-alt"></i> {{ today }}</div>
+    </div>
+    <div style="background:#fef9e7; border-left:6px solid #f59e0b; padding:12px 20px; border-radius:12px; margin-bottom:25px;">
+        <strong>🌧️ Monsoon Alert:</strong> Heavy rain in Karnal, Kurukshetra & Ambala.
+    </div>
+    <div class="card">
+        <div class="card-header"><h3><i class="fas fa-chart-simple"></i> Mandi Prices</h3></div>
+        <table>
+            <tr><th>Crop</th><th>Variety</th><th>Price</th><th>Change</th></tr>
+            {% for item in prices %}
+            <tr>
+                <td><strong>{{ item.crop }}</strong></td>
+                <td>{{ item.variety }}</td>
+                <td>₹{{ item.price }}</td>
+                <td class="{% if '+' in item.change %}price-up{% elif '-' in item.change %}price-down{% endif %}">{{ item.change }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="footer">
+        ❤️ Dedicated to Dr. Rajender Bhardwaj · Data: {{ today }}
+    </div>
+</body>
+</html>
